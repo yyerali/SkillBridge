@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f5f7ff;
+        }
+
+        .navbar {
+            background: #3c5ef5;
+        }
+
+        .card {
+            border: none;
+            border-radius: 16px;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .progress {
+            height: 20px;
+            border-radius: 10px;
+        }
+
+        .progress-bar {
+            background-color: #3c5ef5;
+        }
+
+        .btn-primary {
+            background: #3c5ef5;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #2f4ad9;
+        }
+
+        .modal-content {
+            border-radius: 16px;
+        }
+
+        .lesson-text {
+            white-space: pre-line;
+        }
+    </style>
+</head>
+
+<body>
+
+
+<nav class="navbar navbar-dark px-4">
+    <span class="navbar-brand">AI Learning</span>
+    <a href="/logout" class="btn btn-light btn-sm">Logout</a>
+</nav>
+
+<div class="container mt-4">
+
+    
+    <div class="mb-4">
+        <h4>Your Progress</h4>
+        <div class="progress">
+            <div class="progress-bar" style="width: {{ percent }}%">
+                {{ percent }}%
+            </div>
+        </div>
+    </div>
+
+    
+    <h4 class="mb-3">Your Courses</h4>
+
+    <div class="row">
+        {% for course in courses %}
+            {% for m in course.materials %}
+                <div class="col-md-6 mb-4">
+
+                    <div class="card p-3 shadow-sm">
+
+                        <h5>{{ m.title }}</h5>
+
+                        <p class="text-muted">
+    Unit {{ m.unit }}
+</p>
+
+                        <div class="d-flex justify-content-between mt-3">
+
+                            <button class="btn btn-primary btn-sm"
+                                    onclick="openLesson(`{{ m.content | escape }}`)">
+                                Study
+                            </button>
+
+                            <a href="/test/{{ m.id }}" class="btn btn-outline-primary btn-sm">
+    Take Test
+</a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+
+</div>
+
+
+<div class="modal fade" id="lessonModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content p-4">
+
+        <div class="d-flex justify-content-between mb-3">
+            <h5>Lesson</h5>
+            <button class="btn-close" onclick="closeModal()"></button>
+        </div>
+
+        <div id="lessonContent" class="lesson-text"></div>
+
+    </div>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+let modal = new bootstrap.Modal(document.getElementById('lessonModal'));
+
+function openLesson(content){
+    document.getElementById("lessonContent").innerText = content;
+    modal.show();
+}
+
+function closeModal(){
+    modal.hide();
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+<h1>Your Course</h1>
+{% for m in course.materials %}
+  <h3>{{ m.title }}</h3>
+  <p>{{ m.content }}</p>
+  <hr>
+{% endfor %}

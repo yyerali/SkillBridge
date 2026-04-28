@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #eef2ff, #ffffff);
+        }
+
+        .btn-primary {
+            background-color: #3c5ef5;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #2f4ad9;
+        }
+
+        .card {
+            border-radius: 16px;
+        }
+    </style>
+</head>
+<body class="d-flex align-items-center" style="height:100vh;">
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+
+            <div class="card p-4 shadow">
+                <h3 class="text-center mb-3">Register</h3>
+
+                <form method="post">
+
+                    <input class="form-control mb-2" name="name" placeholder="Name">
+                    <input class="form-control mb-2" name="email" placeholder="Email">
+                    <input class="form-control mb-2" name="password" type="password" placeholder="Password">
+
+                    
+                    <select class="form-control mb-2" name="role" id="roleSelect">
+                        <option value="student">Student</option>
+                        <option value="teacher">Teacher</option>
+                    </select>
+
+                    
+                    <input class="form-control mb-2" name="school" placeholder="School">
+                    <input class="form-control mb-2" name="grade" placeholder="Grade (9G)">
+
+                    
+                    <div id="teacherField">
+                        <select class="form-control mb-2" name="teacher_id">
+                            <option value="">Select Teacher</option>
+                            {% for t in teachers %}
+                                <option value="{{ t.id }}">{{ t.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    
+                    <div id="teacherCodeField" style="display:none;">
+                        <input class="form-control mb-2" name="teacher_code" placeholder="Teacher Code">
+                    </div>
+
+                    <button class="btn btn-primary w-100">Register</button>
+                </form>
+
+                <a href="/login" class="text-center mt-2 d-block">Login</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const roleSelect = document.getElementById('roleSelect');
+    const teacherField = document.getElementById('teacherField');
+    const teacherCodeField = document.getElementById('teacherCodeField');
+
+    function updateForm() {
+        if (roleSelect.value === 'teacher') {
+            teacherField.style.display = 'none';
+            teacherCodeField.style.display = 'block';
+        } else {
+            teacherField.style.display = 'block';
+            teacherCodeField.style.display = 'none';
+        }
+    }
+
+    roleSelect.addEventListener('change', updateForm);
+    updateForm();
+</script>
+
+</body>
+</html>
